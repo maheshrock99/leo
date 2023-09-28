@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="3371a300-47fa-45d8-9024-833d500b6ca8" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="gitFlow" doc:id="c42849b3-6291-4da0-8e0a-e61499f91f1f" >
+		<http:listener doc:name="Listener" doc:id="474579bf-8ee8-450d-9ead-f061423b3940" config-ref="HTTP_Listener_config" path="/path"/>
+		<logger level="INFO" doc:name="Logger" doc:id="06c60c24-4c92-40ed-a248-8d62ab484189" />
+		<try doc:name="Try" doc:id="e072fc0e-036f-4d01-b562-321d7e20c566" >
+			<http:request method="GET" doc:name="Request" doc:id="8c609657-fbb1-46dd-97a7-c7dbad8d948e" url=" http://jsontarget.us-e2.cloudhub.io/api/order" />
+			<error-handler >
+				<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="326c0ec5-a69f-47b8-a0c3-11c7246709f6" >
+					<logger level="INFO" doc:name="Logger" doc:id="4730fe1a-1d07-454e-b895-e5a2d78234b9" message="eror was countinues from TIMEOUT EXIDE  ..........------&gt; #[payload]" />
+				</on-error-continue>
+			</error-handler>
+		</try>
+	</flow>
+</mule>
